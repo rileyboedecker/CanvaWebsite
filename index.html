@@ -4,20 +4,124 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home Page</title>
-  <link rel="stylesheet" href="style.css" />
+  
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      font-family: sans-serif;
+      background: black;
+    }
+
+    #bgVideo {
+      position: fixed;
+      bottom: 0;
+      left: -10vw;
+      width: 120vw;
+      height: 60vh;
+      object-fit: cover;
+      z-index: 1;
+      filter: blur(5px);
+    }
+
+    canvas {
+      position: fixed;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 2000px; /* or use %, like 40vw */
+  height: auto; /* preserve aspect ratio */
+    }
+
+    .bg {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .btn {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      width: 200px;
+      height: 60px;
+      z-index: 3;
+      transform: translateX(-50%);
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Background Image -->
   <img src="Home.png" alt="Page 1" class="bg" />
 
-  <!-- Hidden Video -->
-  <video autoplay muted loop playsinline id="bgVideo">
-    <source src="video.mp4" type="video/mp4" />
+  <!-- Background Video -->
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4">
   </video>
 
+  <!-- Hidden white-screen video -->
+  <video id="bookNowVideo" autoplay muted playsinline style="display: none;">
+    <source src="BookNow.mp4" type="video/mp4">
+  </video>
+
+  <!-- Canvas for transparent video rendering -->
+  <canvas id="videoCanvas"></canvas>
+
   <!-- Fake Button -->
-  <a href="About.html" class="btn" style="top: 70%; left: 50%; width: 200px; height: 60px;"></a>
+  <a href="About.html" class="btn" style="top: 80%; left: 60%;">
+  </a>
+
+  <!-- JavaScript for masking -->
+  <script>
+    const video = document.getElementById('bookNowVideo');
+    const canvas = document.getElementById('videoCanvas');
+    const ctx = canvas.getContext('2d');
+
+    video.addEventListener('loadedmetadata', function () {
+    // Skip to 1 second
+    video.currentTime = 1;
+  });
+  video.addEventListener('ended', function () {
+    video.currentTime = 1;
+    video.play();
+  });
+    video.addEventListener('loadeddata', function () {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  video.play(); // 👈 Ensures the video starts
+
+  function renderFrame() {
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const length = frame.data.length;
+
+    for (let i = 0; i < length; i += 4) {
+      const r = frame.data[i];
+      const g = frame.data[i + 1];
+      const b = frame.data[i + 2];
+
+      if (r > 230 && g > 230 && b > 230) {
+        frame.data[i + 3] = 0;
+      }
+    }
+
+    ctx.putImageData(frame, 0, 0);
+    requestAnimationFrame(renderFrame);
+  }
+
+  renderFrame();
+});
+
+  </script>
 
 </body>
 </html>

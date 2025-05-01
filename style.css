@@ -1,12 +1,24 @@
 #bgVideo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: fixed;
+    bottom: 0;
+    left: -10vw;
+    width: 120vw;
+    height: 60vh;
     object-fit: cover;
-    z-index: 2;
-    pointer-events: none;
+    z-index: 1;
+    filter: blur(5px);
+  }
+
+  #bookNowVideo {
+    position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 40vw;       /* Smaller width */
+  height: auto;      /* Let it scale naturally */
+  transform: translate(-50%, -50%); /* Center perfectly */
+  object-fit: cover;
+  z-index: 1;
+  border-radius: 10px;
   }
 
 body, html {
@@ -21,10 +33,13 @@ body, html {
   
   .bg {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain; /* ✅ Show full image without cutting */
+  background-color: #b0bc94;
+  z-index: 1;
   }
   
   /* Invisible Clickable Button */
