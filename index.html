@@ -3,125 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Home Page</title>
-  
+  <title>Stacked Layout</title>
+
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       height: 100vh;
       width: 100vw;
       font-family: sans-serif;
-      background: black;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stack-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
     }
 
     #bgVideo {
-      position: fixed;
+      position: absolute;
       bottom: 0;
-      left: -10vw;
+      left: -10%;
       width: 120vw;
       height: 60vh;
       object-fit: cover;
-      z-index: 1;
-      filter: blur(5px);
-    }
-
-    canvas {
-      position: fixed;
-      top: 70%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       z-index: 2;
-      width: 2000px; /* or use %, like 40vw */
-  height: auto; /* preserve aspect ratio */
     }
 
-    .bg {
+    .bg-image {
       position: absolute;
-      width: 100vw;
-      height: 100vh;
+      top: -30%;
+      left: -10%;
+      width: 120vw;
+      height: 80vh; /* Only top 30% */
       object-fit: cover;
       z-index: 1;
     }
 
-    .btn {
+    .book-now-button {
       position: absolute;
-      top: 70%;
       left: 50%;
-      width: 200px;
-      height: 60px;
-      z-index: 3;
+      bottom: 20vh; /* Halfway into the 60vh video */
       transform: translateX(-50%);
-      display: block;
+      z-index: 2;
+      padding: 1em 2em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Image -->
-  <img src="Home.png" alt="Page 1" class="bg" />
+  <div class="stack-container">
+    <!-- Background Video -->
+    <video id="bgVideo" autoplay muted loop playsinline>
+      <source src="./HomePage/HomePageItems/video.mp4" type="video/mp4" />
+    </video>
 
-  <!-- Background Video -->
-  <video id="bgVideo" autoplay muted loop playsinline>
-    <source src="video.mp4" type="video/mp4">
-  </video>
+    <!-- Background Image -->
+    <img src="./HomePage/HomePageItems/Background.png" alt="Page Background" class="bg-image" />
 
-  <!-- Hidden white-screen video -->
-  <video id="bookNowVideo" autoplay muted playsinline style="display: none;">
-    <source src="BookNow.mp4" type="video/mp4">
-  </video>
+    <!-- Book Now Button -->
+    <a href="About.html" class="book-now-button"><img src="./HomePage/HomePageItems/BookNowButtonImage.png"
+      style="background-color: transparent;"/>
+    </a>
 
-  <!-- Canvas for transparent video rendering -->
-  <canvas id="videoCanvas"></canvas>
+    <!-- Logo -->
+    <img src="./HomePage/HomePageItems/Logo.png" alt="Logo" style="position: absolute; top: 0%; left: 43.25%; width: 200px; z-index: 3;" />
 
-  <!-- Fake Button -->
-  <a href="About.html" class="btn" style="top: 80%; left: 60%;">
-  </a>
-
-  <!-- JavaScript for masking -->
-  <script>
-    const video = document.getElementById('bookNowVideo');
-    const canvas = document.getElementById('videoCanvas');
-    const ctx = canvas.getContext('2d');
-
-    video.addEventListener('loadedmetadata', function () {
-    // Skip to 1 second
-    video.currentTime = 1;
-  });
-  video.addEventListener('ended', function () {
-    video.currentTime = 1;
-    video.play();
-  });
-    video.addEventListener('loadeddata', function () {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-
-  video.play(); // 👈 Ensures the video starts
-
-  function renderFrame() {
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const length = frame.data.length;
-
-    for (let i = 0; i < length; i += 4) {
-      const r = frame.data[i];
-      const g = frame.data[i + 1];
-      const b = frame.data[i + 2];
-
-      if (r > 230 && g > 230 && b > 230) {
-        frame.data[i + 3] = 0;
-      }
-    }
-
-    ctx.putImageData(frame, 0, 0);
-    requestAnimationFrame(renderFrame);
-  }
-
-  renderFrame();
-});
-
-  </script>
+    <!-- Arrows -->
+    <img src="./HomePage/HomePageItems/Arrow1.png" alt="Left Arrow" style="position: absolute; top: 50%; left: 10%; width: 500px; z-index: 3;" />
+  </div>
 
 </body>
 </html>

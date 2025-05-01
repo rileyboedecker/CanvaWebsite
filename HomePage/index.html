@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Page</title>
+  
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      font-family: sans-serif;
+      background: black;
+    }
+
+    #bgVideo {
+      position: fixed;
+      bottom: 0;
+      left: -10vw;
+      width: 120vw;
+      height: 60vh;
+      object-fit: cover;
+      z-index: 1;
+      filter: blur(5px);
+    }
+
+    canvas {
+      position: fixed;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 2000px; /* or use %, like 40vw */
+  height: auto; /* preserve aspect ratio */
+    }
+
+    .bg {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .btn {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      width: 200px;
+      height: 60px;
+      z-index: 3;
+      transform: translateX(-50%);
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Image -->
+  <img src="Home.png" alt="Page 1" class="bg" />
+
+  <!-- Background Video -->
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="./HomePageItems/video.mp4" type="video/mp4">
+  </video>
+
+  <!-- Hidden white-screen video -->
+  <img src="./HomePageItems/BookNowButtonImage.png" id="BookNowButtonImage" />
+
+  <!-- Canvas for transparent video rendering -->
+  <canvas id="videoCanvas"></canvas>
+
+  <!-- Fake Button -->
+  <a href="About.html" class="btn" style="top: 80%; left: 60%;">
+  </a>
+
+</body>
+</html>
