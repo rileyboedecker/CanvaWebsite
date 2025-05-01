@@ -27,7 +27,7 @@
       bottom: 0;
       left: -10%;
       width: 120vw;
-      height: 60vh;
+      height: 56vh;
       object-fit: cover;
       z-index: 2;
     }
@@ -41,19 +41,13 @@
       object-fit: cover;
       z-index: 1;
     }
-
-    .book-now-button {
-      position: absolute;
-      left: 50%;
-      bottom: 20vh; /* Halfway into the 60vh video */
-      transform: translateX(-50%);
-      z-index: 2;
-      padding: 1em 2em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
   </style>
+<!-- Include GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<!-- Include your global tween script -->
+<script src="./tween.js"></script>
+
 </head>
 <body>
 
@@ -66,17 +60,110 @@
     <!-- Background Image -->
     <img src="./HomePage/HomePageItems/Background.png" alt="Page Background" class="bg-image" />
 
-    <!-- Book Now Button -->
-    <a href="About.html" class="book-now-button"><img src="./HomePage/HomePageItems/BookNowButtonImage.png"
-      style="background-color: transparent;"/>
-    </a>
+    <!-- Navigation Buttons -->
+    <a href="About.html" style="
+            display: inline-block;
+            position: absolute;
+            top: 30%;
+            left: 5%;
+            z-index: 3;
+      ">
+        <img src="./HomePage/HomePageItems/AboutButtonImage.png" 
+            alt="About Button" class="tween-item"
+             />
+      </a>
+
+      <a href="About.html" style="
+      display: inline-block;
+      position: absolute;
+      top: 30%;
+      left: 31%;
+      z-index: 3;
+      ">
+        <img src="./HomePage/HomePageItems/ContactButtonImage.png" 
+            alt="About Button" class="tween-item"
+            />
+      </a>
+
+      <a href="About.html" style="
+      display: inline-block;
+      position: absolute;
+      top: 30%;
+      right: 31%;
+      z-index: 3;
+      ">
+        <img src="./HomePage/HomePageItems/PackagesServicesButtonImage.png" 
+            alt="About Button" class="tween-item"
+            />
+      </a>
+
+      <a href="About.html" style="
+      display: inline-block;
+      position: absolute;
+      top: 30%;
+      right: 5%;
+      z-index: 3;
+      ">
+        <img src="./HomePage/HomePageItems/ReviewsButtonImage.png" 
+            alt="About Button" class="tween-item"
+            />
+      </a>
 
     <!-- Logo -->
-    <img src="./HomePage/HomePageItems/Logo.png" alt="Logo" style="position: absolute; top: 0%; left: 43.25%; width: 200px; z-index: 3;" />
+    <img src="./HomePage/HomePageItems/Logo.png" alt="Logo" class="tween-item" style="position: absolute; top: 0%; left: 43.25%; width: 200px; z-index: 3;" />
+
+    <!-- Book Now Button -->
+    <a href="About.html" style="
+    display: inline-block;
+    position: absolute;
+    top: 63.25%;
+    left: 39%;
+    z-index: 3;
+"><img src="./HomePage/HomePageItems/BookNowButtonImage.png" class="tween-item"/>
+    </a>
 
     <!-- Arrows -->
-    <img src="./HomePage/HomePageItems/Arrow1.png" alt="Left Arrow" style="position: absolute; top: 50%; left: 10%; width: 500px; z-index: 3;" />
+    <img src="./HomePage/HomePageItems/Arrow1.png" alt="Left Arrow" class="tween-item arrow-fade"
+    style="position: absolute; top: 60%; left: -5%; width: 600px; z-index: 3;" />
+    <img src="./HomePage/HomePageItems/Arrow2.png" alt="Right Arrow" class="tween-item arrow-fade"
+    style="position: absolute; top: 60%; right: -7%; width: 600px; z-index: 3;" />
+
   </div>
+
+  <script>
+    // Example usage on page load
+    window.addEventListener("DOMContentLoaded", () => {
+    tweenElements(".tween-item", {
+      from: { opacity: 0, scale: 0.8 },
+      to: {
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: "back.out(1.7)"
+      },
+      stagger: 0.2
+    });
+
+    // Looping opacity fade for arrows
+    gsap.to(".arrow-fade", {
+  duration: 1.5,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut",
+  css: {
+    filter: "brightness(1)"
+  },
+  onUpdate: function () {
+    // Manually toggle brightness using GSAP's set() to avoid overwriting the full filter stack
+    const progress = this.progress();
+    const brightness = 0.5 + 0.5 * Math.sin(progress * Math.PI); // ranges ~0.95–1
+    gsap.set(".arrow-fade", {
+      filter: `brightness(${brightness})`
+    });
+  }
+});
+    });
+  </script>
 
 </body>
 </html>
