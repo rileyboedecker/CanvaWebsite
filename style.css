@@ -1,0 +1,36 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    font-family: sans-serif;
+  }
+  
+  .bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  #bgVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  /* Invisible Clickable Button */
+  .btn {
+    position: absolute;
+    display: block;
+    z-index: 2;
+  }
+  
